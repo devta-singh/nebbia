@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Test tarea js v1</title>
+
+	<style>
+		.div_botones{
+			display:inline;
+			
+			padding:3px;
+			width:100px;
+		}
+
+		.btn{
+			width:100px;
+			display:inline;
+			padding:3px;
+			margin:3PX;
+		}
+
+		.btn-primary{
+			width:100px;
+			color:white;
+			font-family:helvetica,arial;
+			font-weight: bold;
+
+			border-radius: 5px;
+			background: #73AD21;
+			border:solid 1px #73AD21;
+			padding: 5px;
+			width: 200px;
+			height: 30px;
+		}
+
+		.btn-danger{
+			width:100px;
+		
+			color:white;
+			font-family:helvetica,arial;
+			font-weight: bold;
+
+			border-radius: 5px;
+			background: #FF0000;
+			border:solid 1px #FF0000;
+			padding: 5px;
+			width: 200px;
+			height: 30px;
+		}
+
+		.tr_campos{
+			height: 40px;
+		}
+
+		.td_campos{
+			height: 40px;
+		}
+
+
+	</style>
+
+	<script language="javascript" src="js/jquery.js"></script>
+	<!--<script language="javascript" src="js/edicion-agregar.js"></script>-->
+
+	<script language="javascript">
+		
+function funcGuardar()
+{
+	//alert("Guardar");
+	//console.log($(this));
+	
+	//alert($(this).parent().child());
+	
+
+	$.ajax(
+		{
+		    url: 'guardar_v1.php',
+		    type: 'post',
+		    data: { "campo1": "dato1"},
+		    success: function(response){
+		    	alert(response);
+		    }
+		}
+	);
+}
+
+function funcPrincipal()
+{
+	//alert("saludos f2");
+
+	$("#btnNuevoAlineamiento").click(funcNuevoAlineamiento);
+
+	$(".btn-danger").click(funcEliminarFila);
+
+	//btn btn-danger
+	//console.log("Llamada a funcion principal");
+}
+
+function funcEliminarFila(){
+	//alert('Eliminando fila');
+	//console.log($(this));
+	//$(this).parent().parent().slideUp(10000);
+	$(this).parent().parent().fadeOut('slow');
+	$(this).parent().parent().remove();
+}
+
+function funcNuevoAlineamiento()
+{
+	//console.log("Llamada a funcion funcNuevoAlineamiento");
+	//$('#salida').html('Hola! 3');	// cambiamos el texto de la información
+	$('#salida') // $("#tablaAlineamiento")
+	.append
+	(
+		$('<tr class="tr_campos">')
+		.append
+		(
+			$('<td>')
+			.append
+			(
+				$('<input>').attr('type', 'text').addClass('form-control')
+			)
+		)
+
+		// .append
+		// (
+		// 	$('<td>')
+		// 	.append
+		// 	(
+		// 		$('<input>').attr('type', 'text').addClass('form-control')
+		// 	)
+		// )
+
+		.append
+		(
+			$('<td>').addClass('text-center')
+			.append
+			(		
+				$('<div>').addClass('div_botones')
+			)
+			.append
+			(		
+				$('<div>').addClass('btn btn-primary').text('Guardar')
+			)
+			.append
+			(		
+				$('<div>').addClass('btn btn-danger').text('Eliminar')
+			)
+		)
+	);
+	//alert('añadida fila');
+	$('.btn-danger').click(funcEliminarFila);
+	$('.btn-primary').click(funcGuardar);
+	
+}
+
+//esta linea se ejecuta cuando la carga del documento está completa
+//y llama a la función funcPrincipal
+$(document).ready(funcPrincipal);
+
+	</script>
+</head>
+<body>
+	<form action="ver_datos.php" method="POST">
+		<label for="alineamiento">
+			Estrategia de alineamiento 
+		<input type="button" class="btn btn-success" id="btnNuevoAlineamiento" value="Nuevo"/>
+		</label>
+		<div id="salida"></div>
+ 		<table id="tablaAlineamiento">
+			<tr>
+				<td class="text-center">
+					Estrategia
+				</td>
+				<td class="text-center">
+					Alineamiento
+				</td>
+				<td class="text-center">
+					Opciones
+				</td>
+			</tr>
+		</table> 
+		
+		<input type="submit" class="btn btn-success" id="btnEnviar" value="Enviar"/>
+		
+	</form>
+</body>
+</html>
